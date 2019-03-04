@@ -5,12 +5,16 @@ class cell:
         self.next_state = 0
         self.row = row
         self.col = col
-
-    def __repr__(self):
-        return str(self.alive)
+        self.visited = 0
 
     def is_alive(self):
         return self.alive
+
+    def visit(self):
+        self.visited = 1
+
+    def is_visited(self):
+        return self.visited
 
     def set_next_state(self, state):
         self.next_state = state
@@ -18,10 +22,15 @@ class cell:
     def set_state(self):
         self.alive = self.next_state
 
+    def clear(self):
+        self.next_state = 0;
+        self.alive = 0
+        self.visited = 0
+
     def check_neighbours(self, grid):
         check_north = self.row > 0
-        check_east = self.col < 9
-        check_south = self.row < 9
+        check_east = self.col < 99
+        check_south = self.row < 99
         check_west = self.col > 0
         count = 0
 
@@ -63,6 +72,8 @@ class cell:
                 self.set_next_state(0)
             else:
                 self.set_next_state(1)
+                self.visit()
         else:
             if count == 3:
                 self.set_next_state(1)
+                self.visit()
